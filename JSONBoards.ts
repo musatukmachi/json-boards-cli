@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 interface BoardsFile {
     boards: Board[];
 }
@@ -40,12 +41,17 @@ function combineBoards(files: string[]): CombinedBoards {
 
         const filePath = path.join(dir, file);
         const content = fs.readFileSync(filePath, 'utf8');
-        const boardsFile: BoardsFile = JSON.parse(content);
-        if(boardsFile.boards) {
-            for(const board of boardsFile.boards) {
-                if(board.vendor) vendorsSet.add(board.vendor);
-                boards.push(board);
+        try {
+            const boardsFile: BoardsFile = JSON.parse(content);
+            if(boardsFile.boards) {
+                for(const board of boardsFile.boards) {
+                    if(board.vendor) vendorsSet.add(board.vendor);
+                    boards.push(board);
+                }
             }
+        }
+        catch(err) {
+            console.error(`Error parsing file ${file}, skipping this file. Error: ${err.message}`);
         }
     }
 

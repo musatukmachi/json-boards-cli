@@ -25,14 +25,19 @@ function combineBoards(files) {
             continue;
         var filePath = path.join(dir, file);
         var content = fs.readFileSync(filePath, 'utf8');
-        var boardsFile = JSON.parse(content);
-        if (boardsFile.boards) {
-            for (var _a = 0, _b = boardsFile.boards; _a < _b.length; _a++) {
-                var board = _b[_a];
-                if (board.vendor)
-                    vendorsSet.add(board.vendor);
-                boards.push(board);
+        try {
+            var boardsFile = JSON.parse(content);
+            if (boardsFile.boards) {
+                for (var _a = 0, _b = boardsFile.boards; _a < _b.length; _a++) {
+                    var board = _b[_a];
+                    if (board.vendor)
+                        vendorsSet.add(board.vendor);
+                    boards.push(board);
+                }
             }
+        }
+        catch (err) {
+            console.error("Error parsing file ".concat(file, ", skipping this file. Error: ").concat(err.message));
         }
     }
     // sort objects by vendor then name
