@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 interface BoardsFile {
     boards: Board[];
 }
