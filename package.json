@@ -1,0 +1,6 @@
+{
+    "name": "json-boards",
+    "bin": {
+        "json-boards": "./JSONBoards.js"
+    }
+}
